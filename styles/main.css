@@ -1,0 +1,66 @@
+:root {
+    font: 600 16px 'Open Sans', sans-serif;
+}
+
+body {
+    background: #bdc3c7;
+    margin: 0;
+}
+
+h1, h2 {
+    text-align: center;
+    padding: 20px;
+}
+
+.container {
+    min-height: 100vh;
+    max-width: 600px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0 auto;
+}
+
+.watch {
+    padding: 0 20px;
+    background: #ecf0f1;
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
+}
+
+.buttons {
+    display: flex;
+}
+
+[class^="buttons__"] {
+    background: none;
+    color: #16a085;
+    letter-spacing: 2px;
+    height: 60px;
+    padding: 17px 0;
+    margin: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    border: none;
+    border-top: 1px solid;
+    text-transform: uppercase;
+}
+
+[class^="buttons__"]:disabled {
+    opacity: 0.5;
+}
+
+[class^="buttons__"]:focus {
+    outline: none;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.digits {
+    letter-spacing: 2px;
+}
+
+
