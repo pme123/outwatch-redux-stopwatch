@@ -26,7 +26,7 @@ case class StopWatch() {
 
   case class State(running: Boolean = false, timeInCS: Long = 0)
 
-  def reducer(previousState: State, action: Action) = {
+  private def reducer(previousState: State, action: Action) = {
     println(s"Store reducer: $action")
     action match {
       case Start => previousState.copy(running = true)
@@ -40,27 +40,27 @@ case class StopWatch() {
     }
   }
 
-  val store = Store(State(), reducer)
+  private val store = Store(State(), reducer)
 
   // ticker that sends an Increment Action each 100 milliseconds
   store <-- Observable.interval(100)
     .map(_ => Increment)
 
-  val startButton = button(
+  private val startButton = button(
     className := "buttons__start"
     , click(Start) --> store
     , hidden <-- store.map(_.running)
     , "Start"
   )
 
-  val stopButton = button(
+  private val stopButton = button(
     className := "buttons__stop"
     , click(Stop) --> store
     , hidden <-- store.map(!_.running)
     , "Stop"
   )
 
-  val resetButton = button(
+  private val resetButton = button(
     className := "buttons__reset"
     , click(Reset) --> store
     , disabled <-- store.map(s => s.running || s.timeInCS == 0)
@@ -69,7 +69,7 @@ case class StopWatch() {
 
 
   val root = div(className := "watch"
-    , h1("Antãos Stoppuhr")
+    , h1("Outwatch Redux Stopwatch")
     , h2(className := "digits",child <-- store.map(_.timeInCS).map(printWatch))
     , div(className := "buttons"
       , startButton
