@@ -1,5 +1,6 @@
 package pme.watch
 
+import outwatch.Sink
 import outwatch.dom._
 import outwatch.util.Store
 import rxscalajs.Observable
@@ -40,7 +41,7 @@ case class StopWatch() {
     }
   }
 
-  private val store = Store(State(), reducer)
+  private val store = MyStore(Store(State(), reducer))
 
   // ticker that sends an Increment Action each 100 milliseconds
   store <-- Observable.interval(100)
@@ -67,8 +68,7 @@ case class StopWatch() {
     , "Reset"
   )
 
-
-  val root = div(className := "watch"
+  val root: VNode = div(className := "watch"
     , h1("Outwatch Redux Stopwatch")
     , h2(className := "digits",child <-- store.map(_.timeInCS).map(printWatch))
     , div(className := "buttons"
@@ -86,4 +86,11 @@ case class StopWatch() {
     f"$hou%02d:$min%02d.$sec%02d.$cenSec"
   }
 
+}
+
+case class MyStore[State, Action](wrapped: Store[State, Action])
+
+object MyStore {
+  implicit def toSink[Action](store: MyStore[_, Action]): Sink[Action] = store.wrapped.sink
+  implicit def toSource[State](store: MyStore[State, _]): Observable[State] = store.wrapped.source.share
 }
